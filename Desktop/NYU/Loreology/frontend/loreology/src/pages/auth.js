@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export const Auth = () => {
     return (
@@ -14,6 +16,29 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [_, setCookies] = useCookies(["access_token"])
+
+    const navigate = useNavigate()
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:3000/auth/login", {
+                username,
+                password,
+            });
+
+            setCookies("access_token", response.data.token);
+            window.localStorage.setItem("userID", response.data.userID)
+            //when we login we go back to the homepage
+            navigate("/")
+
+        } catch(err) {
+            console.error(err);
+        }
+
+    };
+
 
     return (
         <Form 
@@ -22,6 +47,8 @@ const Login = () => {
             password={password} 
             setPassword={setPassword}
             label="Login"
+            onSubmit={onSubmit}
+            buttonLabel="Login"
         />
     );    
 };
@@ -40,13 +67,13 @@ const Register = () => {
                 username,
                 password
             });
-            alert("Rehistration Completed! Login now please")
+            alert("Registration Completed! Login now please");
         } catch (err) {
             console.error(err);
 
         }
     };
-
+ 
 
     return (
     <Form 
@@ -56,14 +83,15 @@ const Register = () => {
         setPassword={setPassword}
         label="Register"
         onSubmit={onSubmit}
+        buttonLabel="Register"
+        
     />
 
     ) 
 };
 
-
 //using props to differentiate, created a form that can be used for both registering and login
-const Form = ({username, setUsername, password, setPassword, label, onSubmit}) => {
+const Form = ({username, setUsername, password, setPassword, label, onSubmit, buttonLabel}) => {
     return (
         <div className="auth-container">
         <form onSubmit={onSubmit}>
@@ -78,7 +106,7 @@ const Form = ({username, setUsername, password, setPassword, label, onSubmit}) =
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="password"> Username: </label>
+                <label htmlFor="password"> Password: </label>
                 <input 
                     type="password" 
                     id="password" 
@@ -87,7 +115,7 @@ const Form = ({username, setUsername, password, setPassword, label, onSubmit}) =
                 />
             </div>
 
-            <button type="submit">Register</button>
+            <button type="submit">{buttonLabel}</button>
         </form>
     </div>
     ) 
