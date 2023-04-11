@@ -1,10 +1,10 @@
 import './App.css';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from "./pages/home";
-import { Auth } from "./pages/auth";
-import { CreateMovie } from './pages/create-movie';
-import { SavedMovies } from './pages/saved-movies';
-import { Navbar } from './components/navbar'
+import { Home } from "./pages/home.js";
+import { Auth } from "./pages/auth.js";
+import { AddMovie } from './pages/add-movie.js';
+import { SavedMovies } from './pages/saved-movies.js';
+import { Navbar } from './components/navbar.js'
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}></Route>
           <Route path="/auth" element={<Auth/>}></Route>
-          <Route path="/create-movie" element={<CreateMovie/>}></Route>
+          <Route path="/add-movie" element={<AddMovie/>}></Route>
           <Route path="/saved-movies" element={<SavedMovies/>}></Route>
         </Routes>
 

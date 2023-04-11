@@ -14,10 +14,10 @@ router.post("/register", async (req, res) => {
         return res.json({message: "User already exists"})
     }
     //this hashes the passwords on the database
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
     //creating a new user with the hashed password
-    const newUser = UserModel({ username, password: hashedPassword })
-    await newUser.save()
+    const newUser = UserModel({ username, password: hashedPassword });
+    await newUser.save();
 
     res.json({message: "User Successfully Registered!"});
 })
@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
         return res.json({message: "User doesn't exist"});
     }
     //using bcrypt compare: compares the password we put in with the original password in the database with "user.password".
-    const isPasswordValid = await bcrypt.compare(password, user.password)
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     //if password is not valid then it will send this message.
     if(!isPasswordValid) {
         return res.json({message: "Username or Password are incorrect!"});
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
     //Create a token using jwt. Will be used to verify if the user is authentic.
     const token = jwt.sign({id: user._id }, "secret");
     //ending this request and sending back the token and the userID
-    res.json({token, userID: user._id })
+    res.json({token, userID: user._id });
 });
 
 export { router as userRouter };
