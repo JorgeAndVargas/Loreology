@@ -24,6 +24,6 @@ mongoose.connect("mongodb+srv://jorgeandvargasluz:260899@loreology.txnayp7.mongo
   });
 
 
-app.listen(3000, () => console.log("SERVER IS ON!"));
+app.listen(3001, () => console.log("SERVER IS ON!"));
 
 

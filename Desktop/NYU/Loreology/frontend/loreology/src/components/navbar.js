@@ -9,7 +9,7 @@ export const Navbar = () => {
 
     const logout = () => {
         setCookies("access_token", "");
-        window.localStorage.removeItem("userID");
+        window.localStorage.clear();
         navigate("/auth");
     }
     return (

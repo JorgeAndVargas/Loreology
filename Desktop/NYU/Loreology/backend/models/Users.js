@@ -6,4 +6,4 @@ const UserSchema = new mongoose.Schema({
     savedMovies: [{type: mongoose.Schema.Types.ObjectId, ref: "movies" }],
 });
 
- export const UserModel = mongoose.model("users", UserSchema);
+export const UserModel = mongoose.model("users", UserSchema);
