@@ -19,7 +19,7 @@ export const Navbar = () => {
                 <div className="nav-items flex">
                     <Link to ="/" className="nav-links">Home</Link>
                     <Link to ="/add-movie" className="nav-links">Add Movie</Link>
-                    <Link to ="/saved-movies" className="nav-links">My Movies</Link>
+                    {/* <Link to ="/saved-movies" className="nav-links">My Movies</Link> */}
                     {!cookies.access_token ? (<Link to ="/auth" className="nav-links">Login/Register</Link>) : (<button onClick={logout}>Logout</button>) }
 
                 </div>

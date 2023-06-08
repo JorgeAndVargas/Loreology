@@ -2,6 +2,7 @@ import express from 'express';
 import { MovieModel } from '../models/Movies.js';
 import mongoose from 'mongoose';
 
+
 const router = express.Router();
 
 // Middleware to parse request bodies as JSON
@@ -43,23 +44,41 @@ router.post("/", async (req, res) => {
   const { name, imageUrl, year, rating, length, genre, synopsis, userOwner } = req.body;
 
   try {
-    const newMovie = await MovieModel.create({
-      name,
-      imageUrl,
-      year,
-      rating,
-      length,
-      genre,
-      synopsis,
-      userOwner
+    const newMovie = new MovieModel({
+      _id: new mongoose.Types.ObjectId(),
+      name: req.body.name,
+      imageUrl: req.body.imageUrl,
+      year: req.body.year,
+      rating: req.body.rating,
+      length: req.body.length,
+      genre: req.body.genre,
+      synopsis: req.body.synopsis,
+      userOwner: req.body.userOwner,
     });
 
-    res.status(201).json({ message: "Movie created successfully", movie: newMovie });
+    console.log(newMovie);
+
+    const result = await newMovie.save();
+
+    res.status(201).json({
+      createdMovie: {
+        name: result.name,
+        imageUrl: result.imageUrl,
+        year: result.year,
+        rating: result.rating,
+        length: result.length,
+        genre: result.genre,
+        synopsis: result.synopsis,
+        _id: result._id,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to create movie", error: error.message });
   }
 });
+
+
 
 // Update a movie
 router.put("/:id", async (req, res) => {
@@ -82,7 +101,7 @@ router.put("/:id", async (req, res) => {
     movie.userOwner = userOwner || movie.userOwner;
 
     await movie.save();
-    res.json({ message: "Movie updated successfully", movie: movie }); // Update the response property here
+    res.json({ message: "Movie updated successfully", movie });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to update movie", error: error.message });
@@ -117,6 +136,5 @@ router.get("/savedMovies", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch saved movies", error: error.message });
   }
 });
-
 
 export { router as moviesRouter };

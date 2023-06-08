@@ -8,7 +8,7 @@ const MovieSchema = new mongoose.Schema({
     length: { type: String, required: true },
     genre: { type: String, required: true },
     synopsis: {type: String, required: true },
-    userOwner: { type: mongoose.Schema.Types.ObjectId, ref: "users", required: true },
+    userOwner: { type: mongoose.Schema.Types.ObjectId, ref: "users", required: false },
 
 });
 
